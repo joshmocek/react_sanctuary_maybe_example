@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import * as S from "sanctuary";
 import * as SD from "sanctuary-def";
+import * as C from "./consoleLib";
 import { LoadingView, ErrorView, SuccessView } from "./view";
 const dirs = ["myDir1", "myDir2", "myDir3", "myDir4"];
 const myobj = {
@@ -10,14 +11,13 @@ const myobj = {
     myDir2: ["a"],
     myDir3: [],
     myDir4: ["a", "b"]
+  },
+  myID5: {
+    myDir1: ['a'],
+    myDir2: 'a'
   }
 };
 
-const consoleLeft = func => param => {
-  console.error(param);
-  return func(param);
-};
-const consoleIdentity = consoleLeft(x => x);
 const atPath = S.gets(S.is(SD.Array(SD.String)));
 const getDirectoryLength = dir => cr =>
   S.fromMaybe([])(atPath([String(cr.ID), String(dir)])(myobj)).length;
@@ -38,7 +38,7 @@ const getFileUploadCountForRep = S.pipe([
   S.either(x => x)(getTotalImagesCount),
   S.tagBy(x => !!(x > 0)),
   S.either(addToErrorMessage("parameter is less than 1"))(countToMsg),
-  consoleIdentity,
+  // C.consoleIdentity,
   S.tagBy(S.is(SD.Object)),
   S.either(x => 0)(x => x),
   S.tagBy(x => !!(x.msg > 0)),
@@ -77,6 +77,9 @@ class App extends React.Component {
         {this.makeButton("Success")(S.Just(S.Right({ msg: "good!" })))}
         {this.makeButton("Success2")(
           getFileUploadCountForRep({ msg: "myID3" })
+        )}
+        {this.makeButton("Success3")(
+          getFileUploadCountForRep({ msg: "myID5" })
         )}
         <h2>Click a button to see some magic happen!</h2>
         {status &&
