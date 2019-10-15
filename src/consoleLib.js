@@ -2,4 +2,4 @@ exports.consoleLeft = func => param => {
 	console.error(param);
 	return func(param);
 };
-exports.consoleIdentity = consoleLeft(x => x);
+exports.consoleIdentity = exports.consoleLeft(x => x);

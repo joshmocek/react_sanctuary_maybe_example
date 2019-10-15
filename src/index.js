@@ -13,8 +13,8 @@ const myobj = {
     myDir4: ["a", "b"]
   },
   myID5: {
-    myDir1: ['a'],
-    myDir2: 'a'
+    myDir1: ["a"],
+    myDir2: "a"
   }
 };
 
